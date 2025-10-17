@@ -102,6 +102,11 @@
       margin: 4px 0;
     }
 
+    .menu-item small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
     .qty-controls {
       display: flex;
       align-items: center;
@@ -233,13 +238,13 @@
 
   <script>
     const menus = [
-      { id:'M1', name:'Thai Tea Original', price:8000 },
-      { id:'M2', name:'Matcha Original', price:11000 },
-      { id:'M3', name:'Chocolate Original', price:8000 },
-      { id:'M4', name:'Thai Tea + Topping', price:12000 },
-      { id:'M5', name:'Matcha + Topping', price:15000 },
-      { id:'M6', name:'Chocolate + Topping', price:12000 },
-      { id:'M7', name:'Thai Tea Brown Sugar Bakar', price:12000 }
+      { id:'M1', name:'Thai Tea Original', price:8000, type:'Harga Original' },
+      { id:'M2', name:'Matcha Original', price:12000, type:'Harga Original' },
+      { id:'M3', name:'Chocolate Original', price:10000, type:'Harga Original' },
+      { id:'M4', name:'Thai Tea + Topping', price:12000, type:'Harga + Topping' },
+      { id:'M5', name:'Matcha + Topping', price:16000, type:'Harga + Topping' },
+      { id:'M6', name:'Chocolate + Topping', price:14000, type:'Harga + Topping' },
+      { id:'M7', name:'Thai Tea Brown Sugar Bakar', price:12000, type:'Menu Tambahan' }
     ];
 
     const menuList = document.getElementById('menuList');
@@ -261,6 +266,7 @@
         div.innerHTML = `
           <strong>${m.name}</strong>
           <div class="price">${formatRp(m.price)}</div>
+          <small>${m.type}</small>
           <div class="qty-controls">
             <button onclick="changeQty('${m.id}', -1)">-</button>
             <input type="number" id="qty_${m.id}" value="${orders[m.id]?.qty || 0}" readonly />
@@ -300,7 +306,7 @@
       for(const k in orders){
         if(orders[k].qty>0){
           const menu = menus.find(m=>m.id===k);
-          report += `${menu.name}: ${orders[k].qty} cup\n`;
+          report += `${menu.name} (${menu.type}): ${orders[k].qty} cup\n`;
         }
       }
       report += `\nTotal Cup Terjual: ${totalCup}\nPendapatan Menu: ${formatRp(totalRevenue)}\n\nREKAP PENJUALAN\n-----------------\n`;
